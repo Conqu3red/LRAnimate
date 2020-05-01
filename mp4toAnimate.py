@@ -37,8 +37,13 @@ for n,frame in enumerate(frames):
 				c += 1
 	OFFSET += width
 	print(f"Completed Frame {n}")
-track.addLine(Line(0,c, 0, height, OFFSET, height, False,False,False))
+	STARTSPEED = 0.4
+	
+	# multiplier 2 : x1.45
+	# multiplier 4 : x
+track.addLine(Line(0,c, -50, height, 0, height, False,False,False))
+track.addLine(Line(0,c+1, 0, height, OFFSET, height, False,False,False))
+track.addLine(Line(1,c+2, 0, height, 0.4, height, False,False,False,2))
 
-
-track.data["startPosition"] = {"x":0,"y":height-5}
+track.data["startPosition"] = {"x":-50,"y":height-5}
 track.saveTrack("test")
