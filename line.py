@@ -9,7 +9,7 @@ class Line:
                 self.flipped = flipped
                 self.leftExtended = leftExtended
                 self.rightExtended = rightExtended
-                if self.id == 1:
+                if self.type == 1:
                         self.multiplier = multiplier
 
         def getLine(self,identifier):

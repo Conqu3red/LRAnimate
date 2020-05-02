@@ -12,6 +12,7 @@ class Track:
                         "duration":0,
                         "version":"6.2",
                         "startPosition":{"x":0,"y":0},
+                        "riders":[{"startPosition":{"x":-50,"y":471},"startVelocity":{"x":0.4,"y":0}}],
                         "layers":[{"id":0,"name":"Base Layer","visible":True}],
                         "lines":[]}
 
