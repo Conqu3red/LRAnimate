@@ -3,69 +3,52 @@ from track import *
 from line import *
 import cv2
 MAXRGBFORBLACK = 40
-frames = []
+frame = ""
+track = Track()
+c = 0
+PIXELWIDTH = 1
+OFFSET = 0
 vidcap = cv2.VideoCapture('test.mov')
 success,image = vidcap.read()
 count = 0
 while success:
 	#cv2.imwrite("%d.jpg" % count, image)	 # save frame as JPEG file	  
-	frames.append(image)
-	success,image = vidcap.read()
-	print('Read a new frame: ', success)
-	count += 1
-# frames[frame][x][y]
-# pixel
-# 1,2,3 = red,green,blue
-#print(frames[0][20][30])
-track = Track()
-c = 0
-PIXELWIDTH = 1
-OFFSET = 0
-width = len(frames[0])
-height = len(frames[0][0])
-print(width, height)
-for n,frame in enumerate(frames):
+	frame = image
+	width = len(frame)
+	SCALE = 100/width
+	width = width*SCALE
+	height = len(frame[0])
+	height = height*SCALE
+	#print(width,height)
+	PIXELWIDTH = SCALE/width
+	#print(width, height)
+	if count == 0:
+		OFFSET += width+1000
 	for x,row in enumerate(frame):
 		for y,pixel in enumerate(row):
 			if pixel[0] < MAXRGBFORBLACK and pixel[1] < MAXRGBFORBLACK and pixel[2] < MAXRGBFORBLACK:
 				#print(x,y)
-				x1 = x + OFFSET - PIXELWIDTH/2
-				y1 = y + PIXELWIDTH/2
-				x2 = x + OFFSET - PIXELWIDTH/2
-				y2 = y - PIXELWIDTH/2
+				x1 = x*SCALE + OFFSET - PIXELWIDTH/2
+				y1 = y*SCALE + PIXELWIDTH/2
+				x2 = x*SCALE + OFFSET - PIXELWIDTH/2
+				y2 = y*SCALE - PIXELWIDTH/2
 				track.addLine(Line(2,c,x1,y1,x2,y2,False,False,False))
 				c += 1
 	OFFSET += width+1000
-	print(f"Completed Frame {n}")
-	STARTSPEED = 0.4
-
-	# multiplier 2 : x1.45
-	# multiplier 4 : x
+	print(f"Completed Frame {count}")
 
 
-def getLines(img):
-		start = 0
-		end = 0
-		ret = []
-		ls = False
-		for x in range(self.image.width):
-			if ls == True:
-				ret.append((start,end))
-				ls = False
-			for y in range(self.image.height):
-				if self.data[x,y] == 0:
-					if ls == False:
-						ls = True
-						start = x,y
-						end = x,y
-					else:
-						end = x,y
-						
-				elif self.data[x,y] == 255 and ls == True:
-					ret.append((start,end))
-					ls = False
 
-		return ret
+
+
+	success,image = vidcap.read()
+	#print('Read a new frame: ', success)
+	count += 1
+
+# pixel
+# 1,2,3 = red,green,blue
+#print(frames[0][20][30])
+
 
 
 
