@@ -1,4 +1,3 @@
 ```
-pip install sk-video  
-pip install ffmpeg
+pip install cv2
 ```
