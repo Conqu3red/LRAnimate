@@ -7,7 +7,7 @@ print("Welcome to LRAnimate!")
 print("WARNING! Ideally only input .mov files as .mp4 files end up with the wrong orientation and mirrored!")
 filename = input("Please type the name of your video file: ")
 width_scaling = int(input("please enter the pixel width your would like x to be (recommended 100): "))
-
+distance = int(input("Please enter distance between frames (recomend 1000 but up to you): "))
 def getLines(img,width,height):
 		start = 0
 		end = 0
@@ -59,7 +59,7 @@ while success:
 	#print(width, height)
 	#l = getLines(frame, width, height)
 	if count == 0:
-		OFFSET += width_s+1000
+		OFFSET += width_s+distance
 	lines = getLines(frame,width,height)
 #	for x,row in enumerate(frame):
 #		for y,pixel in enumerate(row):
@@ -80,7 +80,7 @@ while success:
 		track.addLine(Line(2,n,x1,y1,x2,y2))
 		c += 1
 	c += 1
-	OFFSET += width_s+1000
+	OFFSET += width_s+distance
 	print(f"Frame {count}  Total Lines: {c}")
 
 
@@ -103,7 +103,7 @@ track.addLine(Line(0,c+1, 0, height_s, OFFSET, height_s, False,False,False))
 
 track.data["startPosition"] = {"x":-50,"y":height-5}
 track.data["riders"][0]["startPosition"] = {"x":-50,"y":height_s-5}
-track.data["riders"][0]["startVelocity"] = {"x":width_s+1000,"y":0}
+track.data["riders"][0]["startVelocity"] = {"x":width_s+distance,"y":0}
 track.saveTrack(filename)
 
 print(f"Track Saved as {filename}.json")
