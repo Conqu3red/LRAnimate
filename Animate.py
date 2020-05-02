@@ -4,6 +4,7 @@ from line import *
 import cv2
 MAXRGBFORBLACK = 40
 print("Welcome to LRAnimate!")
+print("WARNING! Ideally only input .mov files as .mp4 files end up with the wrong orientation and mirrored!")
 filename = input("Please type the name of your video file: ")
 width_scaling = int(input("please enter the pixel width your would like x to be (recommended 100): "))
 
