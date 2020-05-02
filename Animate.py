@@ -1,7 +1,7 @@
 import random, math, os, sys,json
 from track import *
 from line import *
-import cv2, PIL
+import cv2
 MAXRGBFORBLACK = 40
 print("Welcome to LRAnimate!")
 filename = input("Please type the name of your video file: ")
