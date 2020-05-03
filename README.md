@@ -8,5 +8,5 @@ Thanks to OllieMBM for helping with the getLines function! [OllieMBM](https://gi
 # Requirements
 ```
 pip install cv2
-pip install ffmpeg-python
+pip install pillow
 ```
