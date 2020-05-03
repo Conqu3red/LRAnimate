@@ -1,13 +1,16 @@
 import random, math, os, sys,json
 from track import *
 from line import *
-import cv2
+import cv2, os
+from PIL import Image
 MAXRGBFORBLACK = 40
+# VIDEOS ARE SOMETIMES ROTATED WRONG/FLIPPED - NEED TO FIX
 print("Welcome to LRAnimate!")
-print("WARNING! Ideally only input .mov files as .mp4 files end up with the wrong orientation and mirrored!")
+#print("WARNING! Ideally only input .mov files as .mp4 files end up with the wrong orientation and mirrored!")
 filename = input("Please type the name of your video file: ")
 width_scaling = int(input("please enter the pixel width your would like x to be (recommended 100): "))
 distance = int(input("Please enter distance between frames (recomend 1000 but up to you): "))
+
 def getLines(img,width,height):
 		start = 0
 		end = 0
@@ -18,7 +21,7 @@ def getLines(img,width,height):
 				ret.append((start,end))
 				ls = False
 			for y in range(height):
-				if image[x,y][0] < MAXRGBFORBLACK and image[x,y][1] < MAXRGBFORBLACK and image[x,y][2] < MAXRGBFORBLACK:
+				if img.getpixel((x,y))[0] < MAXRGBFORBLACK and img.getpixel((x,y))[1] < MAXRGBFORBLACK and img.getpixel((x,y))[2] < MAXRGBFORBLACK:
 					if ls == False:
 						ls = True
 						start = x,y
@@ -26,7 +29,7 @@ def getLines(img,width,height):
 					else:
 						end = x,y
 						
-				elif image[x,y][0] > MAXRGBFORBLACK and image[x,y][1] > MAXRGBFORBLACK and image[x,y][2] > MAXRGBFORBLACK and ls == True:
+				elif img.getpixel((x,y))[0] > MAXRGBFORBLACK and img.getpixel((x,y))[1] > MAXRGBFORBLACK and img.getpixel((x,y))[2] > MAXRGBFORBLACK and ls == True:
 					ret.append((start,end))
 					ls = False
 
@@ -44,20 +47,26 @@ c = 0
 PIXELWIDTH = 1
 OFFSET = 0
 vidcap = cv2.VideoCapture(filename)
-success,image = vidcap.read()
+success,img = vidcap.read()
+#print((os.path(filename)))
 count = 0
 while success:
 	#cv2.imwrite("%d.jpg" % count, image)	 # save frame as JPEG file	  
-	frame = image
-	width = len(frame)
+	frame = img
+	
+	frame = Image.fromarray(frame)
+	#print(frame.getpixel((1,2)))
+
+	width = frame.width
 	SCALE = width_scaling/width
 	width_s = width*SCALE
-	height = len(frame[0])
+	height = frame.height
 	height_s = height*SCALE
 	#print(width,height)
 	PIXELWIDTH = SCALE/width
 	#print(width, height)
 	#l = getLines(frame, width, height)
+	
 	if count == 0:
 		OFFSET += width_s+distance
 	lines = getLines(frame,width,height)
@@ -86,7 +95,7 @@ while success:
 
 
 
-	success,image = vidcap.read()
+	success,img = vidcap.read()
 	#print('Read a new frame: ', success)
 	count += 1
 
