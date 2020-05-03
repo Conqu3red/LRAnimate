@@ -49,6 +49,20 @@ OFFSET = 0
 vidcap = cv2.VideoCapture(filename)
 success,img = vidcap.read()
 #print((os.path(filename)))
+
+frame = img
+	
+frame = Image.fromarray(frame)
+if width_scaling == 0:
+	width_scaling = frame.width
+width = frame.width
+SCALE = width_scaling/width
+width_s = width*SCALE
+height = frame.height
+height_s = height*SCALE
+
+
+
 count = 0
 while success:
 	#cv2.imwrite("%d.jpg" % count, image)	 # save frame as JPEG file	  
